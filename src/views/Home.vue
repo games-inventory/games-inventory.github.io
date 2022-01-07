@@ -64,17 +64,17 @@
 
               <v-row no-gutters>
                 <v-col align="end">
-                  <v-btn color="primary">Submit</v-btn>
+                  <v-btn color="primary" v-on:click="populateField">Submit</v-btn>
                 </v-col>
               </v-row>
             </v-expansion-panel-content>
           </v-expansion-panel>
         </v-expansion-panels>
 
-        <!-- TODO: change dummydata to array obtained from axios -->
+        <!-- TODO: change gamesdata to array obtained from axios -->
         <v-row class="mt-4">
           <v-col
-            v-for="game in dummydata"
+            v-for="game in gamesdata"
             :key="game.title"
             cols="6"
             md="2"
@@ -92,7 +92,7 @@
 <script>
 import GameCard from '@/components/GameCard'
 import DialogForm from '@/components/DialogForm'
-import dummy from '@/data/dummy'
+import axios from 'axios';
 
 export default {
   name: 'Home',
@@ -108,7 +108,7 @@ export default {
     dialog: false,
     genres: [],
     players: [1,2,3,4,5,6,7,8,9,10],
-    dummydata: dummy,
+    gamesdata: null,
     // gameslist: []
   }),
 
@@ -117,10 +117,56 @@ export default {
     DialogForm
   },
 
+  mounted: function() {
+    this.populateField()
+  },
+
   methods: {
     closeDialog() {
       this.dialog=false
+    },
+    range(start, end) {
+      return Array(end - start + 1).fill().map((_, idx) => start + idx)
+    },
+    async populateField() {
+      const params = {}
+      if (this.gameinfo.title) {
+        params["title"] = this.gameinfo.title;
+      }
+      if (this.gameinfo.year) {
+        params["year"] = this.gameinfo.year;
+      }
+      if (this.gameinfo.minplayers && this.gameinfo.maxplayers) {
+        params["players"] = this.range(this.gameinfo.minplayers, this.gameinfo.maxplayers);
+      } else if (this.gameinfo.minplayers) {
+        params["players"] = [this.gameinfo.minplayers]
+      } else if (this.gameinfo.minplayers) {
+        params["players"] = [this.gameinfo.maxplayers]
+      }
+      try {
+        let res = (await this.fetchData(params)).data
+        res = res["data"]
+        const res2 = []
+        for (var i = 0; i < (await res).length; i++) {
+          const elem = res[i]
+          console.log(elem.players)
+          const minplayers = Math.min.apply(Math, elem.players)
+          const maxplayers = Math.max.apply(Math, elem.players)
+          res2.push({"title": elem.title, "year": elem.year, "minplayers": minplayers, "maxplayers": maxplayers})
+        }
+        this.gamesdata = res2
+      } catch (err) {
+        console.log(err)
+      }
+    },
+    async fetchData(params) {
+      try {
+        return await axios.get('http://127.0.0.1:8000/api/v1/game/', {params: params});
+      } catch (err) {
+        console.log(err)
+      }
     }
+
   }
   // computed: { getgames() { axios call } }
 };
