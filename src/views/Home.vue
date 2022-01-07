@@ -60,7 +60,7 @@
           </v-expansion-panel>
         </v-expansion-panels>
 
-        <!-- store cards later -->
+        <!-- TODO: change dummydata to array obtained from axios -->
         <v-row class="mt-4">
           <v-col
             v-for="game in dummydata"
@@ -69,6 +69,7 @@
             md="2"
             class="game"
           >
+          <!-- TODO: setup router link -->
             <GameCard v-bind:title="game.title" v-bind:year="game.year" v-bind:minplayers="game.minplayers" v-bind:maxplayers="game.maxplayers"></GameCard>
           </v-col>
         </v-row>
@@ -93,10 +94,12 @@ export default {
     },
     genres: [],
     players: [1,2,3,4,5,6,7,8,9,10],
-    dummydata: dummy
+    dummydata: dummy,
+    // gameslist: []
   }),
   components: {
     GameCard
-  }
+  },
+  // computed: { getgames() { axios call } }
 };
 </script>
