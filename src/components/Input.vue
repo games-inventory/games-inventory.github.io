@@ -1,0 +1,98 @@
+<template>
+  <v-card outlined>
+    <v-card-title class="text-h5">
+      Add a game
+    </v-card-title>
+    <v-form
+      ref="form"
+      v-model="valid"
+      lazy-validation
+      class="ma-5"
+    >
+      <v-text-field
+        v-model="title"
+        :rules="titleRules"
+        label="Title"
+        required
+      ></v-text-field>
+
+      <v-text-field
+        v-model="year"
+        :rules="yearRules"
+        label="Year"
+        required
+      ></v-text-field>
+
+      <v-text-field
+        v-model="minplayers"
+        :rules="minRules"
+        label="Min Number of Players"
+        required
+      ></v-text-field>
+
+      <v-text-field
+        v-model="maxplayers"
+        :rules="maxRules"
+        label="Max Number of Players"
+        required
+      ></v-text-field>
+
+      <v-card-actions>
+        <v-btn
+          :disabled="!valid"
+          color="success"
+          class="mr-4"
+          @click="submit"
+        >
+          Submit
+        </v-btn>
+
+        <v-btn
+          color="warning"
+          class="mr-4"
+          @click="clear"
+        >
+          Reset
+        </v-btn>
+
+    </v-card-actions>
+    </v-form>
+  </v-card>
+</template>
+
+<script>
+  export default {
+    data: () => ({
+      valid: true,
+      title: '',
+      titleRules: [
+        v => !!v || 'Title is required',
+      ],
+      year: '',
+      yearRules: [
+        v => !!v || 'Year is required',
+        v => /^[1-9]\d{3,}$/.test(v) || 'Year must be from 1000',
+      ],
+      minplayers: '',
+      minRules: [
+        v => !!v || 'Min number is required',
+        v => /^[1-9]\d*$/.test(v) || 'Number of players must be valid and at least 1'
+      ],
+      maxplayers: '',
+      maxRules: [
+        v => !!v || 'Max number is required',
+        v => /^[1-9]\d*$/.test(v) || 'Number of players must be valid and at least 1',
+      ],
+    }),
+
+    methods: {
+      submit () {
+        this.$refs.form.validate()
+        // axios call if valid
+      },
+      clear () {
+        this.$refs.form.reset()
+      },
+    },
+  }
+</script>

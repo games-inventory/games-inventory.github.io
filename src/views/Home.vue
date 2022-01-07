@@ -2,7 +2,18 @@
   <v-app id="inspire">
     <!-- top bar -->
     <v-app-bar app>
-      <v-toolbar-title>Games</v-toolbar-title>
+      <!-- dialog for creation -->
+      <v-dialog v-model="dialog" max-width="600px">
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn color="primary" icon v-bind="attrs" v-on="on">
+            <v-icon>mdi-plus</v-icon>
+          </v-btn>
+        </template>
+        <!-- input validation card -->
+        <Input></Input>
+      </v-dialog>
+      <!-- toolbar -->
+      <v-toolbar-title class="pl-5">Games</v-toolbar-title>
     </v-app-bar>
 
     <!-- main container -->
@@ -80,6 +91,7 @@
 
 <script>
 import GameCard from '@/components/GameCard'
+import Input from '@/components/Input'
 import dummy from '@/data/dummy'
 
 export default {
@@ -92,13 +104,15 @@ export default {
       minplayers: null,
       maxplayers: null
     },
+    dialog: false,
     genres: [],
     players: [1,2,3,4,5,6,7,8,9,10],
     dummydata: dummy,
     // gameslist: []
   }),
   components: {
-    GameCard
+    GameCard, 
+    Input
   },
   // computed: { getgames() { axios call } }
 };
