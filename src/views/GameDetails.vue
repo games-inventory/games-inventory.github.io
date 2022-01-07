@@ -1,9 +1,10 @@
 <template>
+<v-app id="gamedetails">
   <v-container>
     <v-card
-      class="mx-auto"
+      class="ma-auto"
       max-width="600"
-      color="primary"
+      color="#1565C0"
       dark
     >
       <v-card-title>
@@ -25,7 +26,7 @@
           <v-list-item-icon>
             <v-btn
               fab
-              color="success"
+              color="#4CAF50"
               small
             >
               <v-icon dark>
@@ -37,7 +38,7 @@
           <v-list-item-icon>
             <v-btn
               fab
-              color="error"
+              color="#C62828"
               small
             >
               <v-icon dark>
@@ -61,6 +62,7 @@
       </v-card-actions>
     </v-card>
   </v-container>
+</v-app>
 </template>
 
 <script>
