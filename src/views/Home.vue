@@ -3,7 +3,7 @@
     <!-- top bar -->
     <v-app-bar app>
       <!-- dialog for creation -->
-      <v-dialog v-model="dialog" max-width="600px">
+      <v-dialog persistent v-model="dialog" max-width="600px">
         <template v-slot:activator="{ on, attrs }">
           <v-btn color="primary" icon v-bind="attrs" v-on="on">
             <v-icon>mdi-plus</v-icon>
@@ -21,7 +21,7 @@
       <v-container>
 
         <!-- advanced search component -->
-        <v-expansion-panels accordion>
+        <v-expansion-panels class="pt-5" accordion>
           <v-expansion-panel>
             <v-expansion-panel-header>Advanced Search</v-expansion-panel-header>
             <v-expansion-panel-content>

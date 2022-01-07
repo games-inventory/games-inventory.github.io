@@ -22,7 +22,8 @@
             maxplayers: { default: 0, type: Number}
         },
         methods: {
-            onclick: function() {}
+            onclick: function() { // expand verbose card 
+            }
         }
     }
 </script>

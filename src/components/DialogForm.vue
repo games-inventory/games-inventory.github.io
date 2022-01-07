@@ -1,6 +1,6 @@
 <template>
   <v-card outlined>
-    <v-card-title class="text-h5">
+    <v-card-title>
       Add a game
     </v-card-title>
     <v-form
@@ -62,7 +62,6 @@
         >
           Cancel
         </v-btn>
-
     </v-card-actions>
     </v-form>
   </v-card>
@@ -101,6 +100,7 @@
           // axios call
           this.$emit("close-dialog")
         }
+        this.$refs.form.reset()
       },
       clear () {
         this.$refs.form.reset()
