@@ -16,13 +16,15 @@
 <script>
     export default {
         props: {
+            id: { default: -1, type: Number },
             title: { default: "", type: String },
             year: { default: 0, type: Number },
-            minplayers: { default: 0, type: Number},
-            maxplayers: { default: 0, type: Number}
+            minplayers: { default: 0, type: Number },
+            maxplayers: { default: 0, type: Number }
         },
         methods: {
-            onclick: function() { // expand verbose card 
+            onclick: function() { 
+                this.$router.push( { path: `/game/${this.id}` } )
             }
         }
     }

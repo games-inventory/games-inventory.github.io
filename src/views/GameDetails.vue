@@ -1,12 +1,66 @@
-<!-- help change this template to the one in https://vuetifyjs.com/en/components/cards/#weather-card -->
-<!-- The edit button can replace the pop-up with the v-form -->
 <template>
-  <div>
-   <!-- {{ this.$route.params.code}} -->
-    <p>Title:{{ title }}, Year: ({{ year }})</p>
-    <p>Number of players:{{ minplayers }}-{{ maxplayers }}</p>
-    <p>Description: {{description}}</p>
-  </div>
+  <v-container>
+    <v-card
+      class="mx-auto"
+      max-width="600"
+      color="primary"
+      dark
+    >
+      <v-card-title>
+        <v-icon
+          large
+          left
+        >
+          mdi-gamepad-variant
+        </v-icon>
+        <span class="text-h6 font-weight-medium">{{ title }} ({{year}})</span>
+      </v-card-title>
+
+      <v-card-text class="text-h5 font-weight-light">
+        {{ description }}
+      </v-card-text>
+
+      <v-card-actions>
+        <v-list-item class="grow">
+          <v-list-item-icon>
+            <v-btn
+              fab
+              color="success"
+              small
+            >
+              <v-icon dark>
+                mdi-pencil
+              </v-icon>
+            </v-btn>
+          </v-list-item-icon>
+
+          <v-list-item-icon>
+            <v-btn
+              fab
+              color="error"
+              small
+            >
+              <v-icon dark>
+                mdi-trash-can-outline
+              </v-icon>
+            </v-btn>
+          </v-list-item-icon>
+
+          <v-row
+            align="center"
+            justify="end"
+          >
+            <v-icon class="mr-1">
+              mdi-account
+            </v-icon>
+            <span class="subheading mr-1">{{ minplayers }}</span>
+            <span class="mr-1">to</span>
+            <span class="subheading"> {{ maxplayers }}</span>
+          </v-row>
+        </v-list-item>
+      </v-card-actions>
+    </v-card>
+  </v-container>
 </template>
 
 <script>
@@ -21,7 +75,8 @@ export default {
     title: null,
     year: null,
     minplayers: null,
-    maxplayers: null
+    maxplayers: null,
+    description: null
   }),
   methods: {
     async fetchData() {

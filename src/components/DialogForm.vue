@@ -24,6 +24,13 @@
       ></v-text-field>
 
       <v-text-field
+        v-model="desc"
+        :rules="descRules"
+        label="Description"
+        required
+      ></v-text-field>
+
+      <v-text-field
         v-model="minplayers"
         :rules="minRules"
         label="Min Number of Players"
@@ -79,6 +86,10 @@
       yearRules: [
         v => !!v || 'Year is required',
         v => /^[1-9]\d{3,}$/.test(v) || 'Year must be from 1000',
+      ],
+      desc: '',
+      descRules: [
+        v => !!v || 'Description is required',
       ],
       minplayers: '',
       minRules: [
