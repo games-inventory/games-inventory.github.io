@@ -55,6 +55,14 @@
           Reset
         </v-btn>
 
+        <v-btn
+          color="error"
+          class="mr-4"
+          @click="close"
+        >
+          Cancel
+        </v-btn>
+
     </v-card-actions>
     </v-form>
   </v-card>
@@ -87,12 +95,19 @@
 
     methods: {
       submit () {
-        this.$refs.form.validate()
+        const isValid = this.$refs.form.validate()
         // axios call if valid
+        if (isValid) {
+          // axios call
+          this.$emit("close-dialog")
+        }
       },
       clear () {
         this.$refs.form.reset()
       },
+      close () {
+        this.$emit("close-dialog")
+      }
     },
   }
 </script>

@@ -10,7 +10,7 @@
           </v-btn>
         </template>
         <!-- input validation card -->
-        <Input></Input>
+        <DialogForm @close-dialog="closeDialog"></DialogForm>
       </v-dialog>
       <!-- toolbar -->
       <v-toolbar-title class="pl-5">Games</v-toolbar-title>
@@ -91,11 +91,12 @@
 
 <script>
 import GameCard from '@/components/GameCard'
-import Input from '@/components/Input'
+import DialogForm from '@/components/DialogForm'
 import dummy from '@/data/dummy'
 
 export default {
   name: 'Home',
+
   data: () => ({
     gameinfo: {
       title: '',
@@ -110,10 +111,17 @@ export default {
     dummydata: dummy,
     // gameslist: []
   }),
+
   components: {
     GameCard, 
-    Input
+    DialogForm
   },
+
+  methods: {
+    closeDialog() {
+      this.dialog=false
+    }
+  }
   // computed: { getgames() { axios call } }
 };
 </script>
