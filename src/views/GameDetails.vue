@@ -1,0 +1,101 @@
+<template>
+  <v-container>
+    <v-card
+      class="mx-auto"
+      max-width="600"
+      color="primary"
+      dark
+    >
+      <v-card-title>
+        <v-icon
+          large
+          left
+        >
+          mdi-gamepad-variant
+        </v-icon>
+        <span class="text-h6 font-weight-medium">{{ title }} ({{year}})</span>
+      </v-card-title>
+
+      <v-card-text class="text-h5 font-weight-light">
+        {{ description }}
+      </v-card-text>
+
+      <v-card-actions>
+        <v-list-item class="grow">
+          <v-list-item-icon>
+            <v-btn
+              fab
+              color="success"
+              small
+            >
+              <v-icon dark>
+                mdi-pencil
+              </v-icon>
+            </v-btn>
+          </v-list-item-icon>
+
+          <v-list-item-icon>
+            <v-btn
+              fab
+              color="error"
+              small
+            >
+              <v-icon dark>
+                mdi-trash-can-outline
+              </v-icon>
+            </v-btn>
+          </v-list-item-icon>
+
+          <v-row
+            align="center"
+            justify="end"
+          >
+            <v-icon class="mr-1">
+              mdi-account
+            </v-icon>
+            <span class="subheading mr-1">{{ minplayers }}</span>
+            <span class="mr-1">to</span>
+            <span class="subheading"> {{ maxplayers }}</span>
+          </v-row>
+        </v-list-item>
+      </v-card-actions>
+    </v-card>
+  </v-container>
+</template>
+
+<script>
+import axios from 'axios';
+
+export default {
+  name: "Game Detail",
+  mounted: function() {
+    this.populateFields()
+  },
+  data: () => ({
+    title: null,
+    year: null,
+    minplayers: null,
+    maxplayers: null,
+    description: null
+  }),
+  methods: {
+    async fetchData() {
+      try {
+        var url = 'http://127.0.0.1:8000/api/v1/game/' + this.$route.params.code + '/'
+        return await axios.get(url);
+      } catch (err) {
+        console.log(err)
+      }
+    },
+    async populateFields() {
+      let res = (await this.fetchData()).data
+      let elem = res["data"]
+      this.minplayers = Math.min.apply(Math, elem.players)
+      this.maxplayers = Math.max.apply(Math, elem.players)
+      this.title = elem.title
+      this.year = elem.year
+      this.description = elem.description
+    }
+  }
+}
+</script>
