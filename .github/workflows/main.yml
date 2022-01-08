@@ -31,5 +31,11 @@ jobs:
       - name: Build page
         run: npm run build
         
+      - name: Setup git config
+        run: |
+          # setup the username and email. I tend to use 'GitHub Actions Bot' with no email by default
+          git config user.name "GitHub Actions Bot"
+          git config user.email "<>"
+        
       - name: Push to gh-pages
         run: git commit -am "Automated build" && npm run deploy
