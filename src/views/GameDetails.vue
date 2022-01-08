@@ -24,17 +24,20 @@
       <v-card-actions>
         <v-list-item class="grow">
           <v-list-item-icon>
-            <v-btn
-              fab
-              color="#4CAF50"
-              small
-            >
-              <v-icon dark>
-                mdi-pencil
-              </v-icon>
-            </v-btn>
+            <v-dialog persistent v-model="dialog" max-width="600px">
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn fab small color="#4CAF50" v-bind="attrs" v-on="on">
+                  <v-icon>mdi-pencil</v-icon>
+                </v-btn>
+              </template>
+              <!-- input validation card -->
+              <DialogForm 
+                @close-dialog="closeDialog" 
+                :isEdit="true">
+              </DialogForm>
+          </v-dialog>
           </v-list-item-icon>
-
+          
           <v-list-item-icon>
             <v-btn
               fab
@@ -66,20 +69,29 @@
 </template>
 
 <script>
+import DialogForm from '@/components/DialogForm'
 import axios from 'axios';
 
 export default {
-  name: "Game Detail",
+  name: "GameDetails",
+
   mounted: function() {
     this.populateFields()
   },
+
   data: () => ({
+    dialog: false,
     title: null,
     year: null,
     minplayers: null,
     maxplayers: null,
     description: null
   }),
+
+  components: {
+    DialogForm
+  },
+
   methods: {
     async fetchData() {
       try {
@@ -97,6 +109,9 @@ export default {
       this.title = elem.title
       this.year = elem.year
       this.description = elem.description
+    },
+    closeDialog() {
+      this.dialog = false
     }
   }
 }

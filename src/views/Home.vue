@@ -20,7 +20,7 @@
     <v-main class="grey lighten-2">
       <v-container>
 
-        <AdvancedSearch />
+        <AdvancedSearch></AdvancedSearch>
 
         <v-row class="mt-4">
           <v-col

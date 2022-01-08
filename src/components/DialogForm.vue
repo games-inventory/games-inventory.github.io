@@ -1,12 +1,11 @@
 <template>
   <v-card outlined>
     <v-card-title>
-      Add a game
+      {{ isEdit ? "Edit a game" : "Add a game" }}
     </v-card-title>
     <v-form
       ref="form"
       v-model="valid"
-      lazy-validation
       class="ma-5"
     >
       <v-text-field
@@ -23,12 +22,12 @@
         required
       ></v-text-field>
 
-      <v-text-field
+      <v-textarea
         v-model="desc"
         :rules="descRules"
         label="Description"
-        required
-      ></v-text-field>
+        outlined
+      ></v-textarea>
 
       <v-text-field
         v-model="minplayers"
@@ -75,7 +74,12 @@
 </template>
 
 <script>
+  import axios from 'axios';
   export default {
+    props: {
+      isEdit: { default: false, type: Boolean },
+    },
+
     data: () => ({
       valid: true,
       title: '',
@@ -103,12 +107,36 @@
       ],
     }),
 
+    computed: {
+      range(start, end) {
+        if (start > end) {
+          return [-1, -1] // placeholder for invalid
+        } else {
+          return Array(end - start + 1).fill().map((_, idx) => start + idx)
+        }
+      }
+    },
+
     methods: {
+      async addHelper() {
+        try {
+          const url = 'http://127.0.0.1:8000/api/v1/game/create/'
+          const data = { title: this.title, year: parseInt(this.year), description: this.desc, players: this.range(parseInt(this.minplayers), parseInt(this.maxplayers)) }
+          return await axios.post(url, data);
+        } catch (err) {
+          console.log(err)
+        }
+      },
       submit () {
         const isValid = this.$refs.form.validate()
         // axios call if valid
         if (isValid) {
-          // axios call
+          // axios call depending on edit or not
+          if (this.isEdit) {
+            // edit
+          } else {
+            console.log(this.addHelper())
+          }
           this.$emit("close-dialog")
         }
         this.$refs.form.reset()
