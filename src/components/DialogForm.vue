@@ -26,13 +26,12 @@
 
       <v-textarea
         v-model="desc"
-        :rules="descRules"
         label="Description"
         outlined
       ></v-textarea>
 
       <v-text-field
-        v-model="minplayers"
+        v-model="minPlayers"
         :rules="minRules"
         label="Min Number of Players"
         required
@@ -41,7 +40,7 @@
       ></v-text-field>
 
       <v-text-field
-        v-model="maxplayers"
+        v-model="maxPlayers"
         :rules="maxRules"
         label="Max Number of Players"
         required
@@ -84,6 +83,7 @@
   export default {
     props: {
       isEdit: { default: false, type: Boolean },
+      gameDetails: { default: null, type: Object }
     },
 
     data() {
@@ -99,21 +99,32 @@
           v => v >= 1000 || 'Year must be from 1000',
         ],
         desc: '',
-        descRules: [
-          v => !!v || 'Description is required',
-        ],
-        minplayers: null,
+        minPlayers: null,
         minRules: [
           v => !!v || 'Min number is required',
           v => v >= 1 || 'Number of players must be valid and at least 1'
         ],
-        maxplayers: null,
+        maxPlayers: null,
         maxRules: [
           v => !!v || 'Max number is required',
           v => (v >= 1) || 'Number of players must be valid and at least 1',
-          v => (v >= this.minplayers) || 'Max must be at least the min'
+          v => (v >= this.minPlayers) || 'Max must be at least the min'
         ],
       }
+    },
+
+    created() {
+      if (this.gameDetails) {
+        this.$data.title = this.gameDetails["title"]
+        this.$data.year = this.gameDetails["year"]
+        this.$data.desc = this.gameDetails["description"]
+        this.$data.minPlayers = this.gameDetails["minPlayers"]
+        this.$data.maxPlayers = this.gameDetails["maxPlayers"]
+      }
+    },
+
+    updated() {
+      console.log("updated")
     },
 
     computed: {
@@ -130,7 +141,7 @@
       async addHelper() {
         try {
           const url = 'http://127.0.0.1:8000/api/v1/game/create/'
-          const data = { title: this.title, year: parseInt(this.year), description: this.desc, players: this.range(parseInt(this.minplayers), parseInt(this.maxplayers)) }
+          const data = { title: this.title, year: parseInt(this.year), description: this.desc, players: this.range(parseInt(this.minPlayers), parseInt(this.maxPlayers)) }
           return await axios.post(url, data);
         } catch (err) {
           console.log(err)

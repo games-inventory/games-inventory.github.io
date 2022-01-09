@@ -1,18 +1,19 @@
 <template>
   <v-app id="inspire">
-    <!-- top bar -->
+
     <v-app-bar app>
-      <!-- dialog for creation -->
+      <!-- dialog (creation) -->
       <v-dialog persistent v-model="dialog" max-width="600px">
         <template v-slot:activator="{ on, attrs }">
           <v-btn color="primary" icon v-bind="attrs" v-on="on">
             <v-icon>mdi-plus</v-icon>
           </v-btn>
         </template>
+
         <!-- input validation card -->
         <DialogForm @close-dialog="closeDialog"></DialogForm>
       </v-dialog>
-      <!-- toolbar -->
+
       <v-toolbar-title class="pl-5">Games</v-toolbar-title>
     </v-app-bar>
 
@@ -22,16 +23,16 @@
 
         <AdvancedSearch></AdvancedSearch>
 
+        <!-- generate cards -->
         <v-row class="mt-4">
           <v-col
-            v-for="game in gamesdata"
+            v-for="game in gamesData"
             :key="game.title"
             cols="6"
             md="2"
             class="game"
           >
-          <!-- TODO: setup router link -->
-            <GameCard v-bind:title="game.title" v-bind:year="game.year" v-bind:minplayers="game.minplayers" v-bind:maxplayers="game.maxplayers" v-bind:id="game.id"></GameCard>
+            <GameCard v-bind:title="game.title" v-bind:year="game.year" v-bind:minPlayers="game.minPlayers" v-bind:maxPlayers="game.maxPlayers" v-bind:id="game.id"></GameCard>
           </v-col>
         </v-row>
       </v-container>
@@ -54,11 +55,11 @@ export default {
       title: '',
       genre: null,
       year: null, 
-      minplayers: null,
-      maxplayers: null
+      minPlayers: null,
+      maxPlayers: null
     },
     dialog: false,
-    gamesdata: null,
+    gamesData: null,
   }),
 
   components: {
@@ -86,12 +87,12 @@ export default {
       if (this.gameinfo.year) {
         params["year"] = this.gameinfo.year;
       }
-      if (this.gameinfo.minplayers && this.gameinfo.maxplayers) {
-        params["players"] = this.range(this.gameinfo.minplayers, this.gameinfo.maxplayers);
-      } else if (this.gameinfo.minplayers) {
-        params["players"] = [this.gameinfo.minplayers]
-      } else if (this.gameinfo.minplayers) {
-        params["players"] = [this.gameinfo.maxplayers]
+      if (this.gameinfo.minPlayers && this.gameinfo.maxPlayers) {
+        params["players"] = this.range(this.gameinfo.minPlayers, this.gameinfo.maxPlayers);
+      } else if (this.gameinfo.minPlayers) {
+        params["players"] = [this.gameinfo.minPlayers]
+      } else if (this.gameinfo.minPlayers) {
+        params["players"] = [this.gameinfo.maxPlayers]
       }
       try {
         let res = (await this.fetchData(params)).data
@@ -100,12 +101,12 @@ export default {
         for (var i = 0; i < (await res).length; i++) {
           const elem = res[i]
           console.log(elem.players)
-          const minplayers = Math.min.apply(Math, elem.players)
-          const maxplayers = Math.max.apply(Math, elem.players)
+          const minPlayers = Math.min.apply(Math, elem.players)
+          const maxPlayers = Math.max.apply(Math, elem.players)
           const gameId = elem.id
-          res2.push({"title": elem.title, "year": elem.year, "minplayers": minplayers, "maxplayers": maxplayers, "id": gameId})
+          res2.push({"title": elem.title, "year": elem.year, "minPlayers": minPlayers, "maxPlayers": maxPlayers, "id": gameId})
         }
-        this.gamesdata = res2
+        this.gamesData = res2
       } catch (err) {
         console.log(err)
       }

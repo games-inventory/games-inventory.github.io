@@ -14,7 +14,7 @@
         >
           mdi-gamepad-variant
         </v-icon>
-        <span class="text-h6 font-weight-medium">{{ title }} ({{year}})</span>
+        <span class="text-h6 font-weight-medium">{{ title }} {{!!year ? `(${year})` : ""}}</span>
       </v-card-title>
 
       <v-card-text class="text-h5 font-weight-light">
@@ -34,6 +34,7 @@
               <DialogForm 
                 @close-dialog="closeDialog" 
                 :isEdit="true"
+                :gameDetails="getDetails"
               >
               </DialogForm>
           </v-dialog>
@@ -58,9 +59,9 @@
             <v-icon class="mr-1">
               mdi-account
             </v-icon>
-            <span class="subheading mr-1">{{ minplayers }}</span>
+            <span class="subheading mr-1">{{ minPlayers }}</span>
             <span class="mr-1">to</span>
-            <span class="subheading"> {{ maxplayers }}</span>
+            <span class="subheading"> {{ maxPlayers }}</span>
           </v-row>
         </v-list-item>
       </v-card-actions>
@@ -84,13 +85,25 @@ export default {
     dialog: false,
     title: null,
     year: null,
-    minplayers: null,
-    maxplayers: null,
+    minPlayers: null,
+    maxPlayers: null,
     description: null
   }),
 
   components: {
     DialogForm
+  },
+
+  computed: {
+    getDetails() {
+      return {
+        "title": this.title,
+        "year": this.year,
+        "minPlayers": this.minPlayers,
+        "maxPlayers": this.maxPlayers,
+        "desc": this.description
+      }
+    }
   },
 
   methods: {
@@ -105,8 +118,8 @@ export default {
     async populateFields() {
       let res = (await this.fetchData()).data
       let elem = res["data"]
-      this.minplayers = Math.min.apply(Math, elem.players)
-      this.maxplayers = Math.max.apply(Math, elem.players)
+      this.minPlayers = Math.min.apply(Math, elem.players)
+      this.maxPlayers = Math.max.apply(Math, elem.players)
       this.title = elem.title
       this.year = elem.year
       this.description = elem.description
@@ -114,6 +127,6 @@ export default {
     closeDialog() {
       this.dialog = false
     }
-  }
+  },
 }
 </script>
