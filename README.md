@@ -1,4 +1,4 @@
-# hnr
+# tabletop-frontend
 
 ## Project setup
 ```
