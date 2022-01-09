@@ -110,6 +110,7 @@
           v => (v >= 1) || 'Number of players must be valid and at least 1',
           v => (v >= this.minPlayers) || 'Max must be at least the min'
         ],
+        id: null
       }
     },
 
@@ -120,6 +121,7 @@
         this.$data.desc = this.gameDetails["description"]
         this.$data.minPlayers = this.gameDetails["minPlayers"]
         this.$data.maxPlayers = this.gameDetails["maxPlayers"]
+        this.$data.id = this.gameDetails["id"]
       }
     },
 
@@ -147,13 +149,20 @@
           console.log(err)
         }
       },
-      submit () { // should be async later
+      async editHelper() {
+        try {
+          const url = 'http://127.0.0.1:8000/api/v1/game/' + this.id + '/update/'
+          const data = { title: this.title, year: parseInt(this.year), description: this.desc, players: this.range(parseInt(this.minPlayers), parseInt(this.maxPlayers)) }
+          return await axios.post(url, data);
+        } catch (err) {
+          console.log(err)
+        }
+      },
+      submit () {
         const isValid = this.$refs.form.validate()
-        // axios call if valid
         if (isValid) {
-          // axios call depending on edit or not
           if (this.isEdit) {
-            // edit
+            console.log(this.editHelper())
           } else {
             console.log(this.addHelper())
           }

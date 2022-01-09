@@ -45,6 +45,7 @@
               fab
               color="#C62828"
               small
+              @click="deleteHandler"
             >
               <v-icon dark>
                 mdi-trash-can-outline
@@ -87,7 +88,8 @@ export default {
     year: null,
     minPlayers: null,
     maxPlayers: null,
-    description: null
+    description: null,
+    id: null
   }),
 
   components: {
@@ -101,12 +103,22 @@ export default {
         "year": this.year,
         "minPlayers": this.minPlayers,
         "maxPlayers": this.maxPlayers,
-        "desc": this.description
+        "desc": this.description,
+        "id": this.id
       }
     }
   },
 
   methods: {
+    async deleteHandler() {
+      try {
+        const url = 'http://127.0.0.1:8000/api/v1/game/' + this.id + '/delete/'
+        return await axios.post(url)
+      } catch (err) {
+        console.log(err)
+      }
+      this.$router.go(-1)
+    },
     async fetchData() {
       try {
         var url = 'http://127.0.0.1:8000/api/v1/game/' + this.$route.params.code + '/'
@@ -123,6 +135,7 @@ export default {
       this.title = elem.title
       this.year = elem.year
       this.description = elem.description
+      this.id = elem.id
     },
     closeDialog() {
       this.dialog = false
