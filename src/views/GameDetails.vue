@@ -33,7 +33,8 @@
               <!-- input validation card -->
               <DialogForm 
                 @close-dialog="closeDialog" 
-                :isEdit="true">
+                :isEdit="true"
+              >
               </DialogForm>
           </v-dialog>
           </v-list-item-icon>

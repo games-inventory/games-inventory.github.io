@@ -20,6 +20,8 @@
         :rules="yearRules"
         label="Year"
         required
+        type="number"
+        hide-spin-buttons
       ></v-text-field>
 
       <v-textarea
@@ -34,6 +36,8 @@
         :rules="minRules"
         label="Min Number of Players"
         required
+        type="number"
+        hide-spin-buttons
       ></v-text-field>
 
       <v-text-field
@@ -41,6 +45,8 @@
         :rules="maxRules"
         label="Max Number of Players"
         required
+        type="number"
+        hide-spin-buttons
       ></v-text-field>
 
       <v-card-actions>
@@ -80,32 +86,35 @@
       isEdit: { default: false, type: Boolean },
     },
 
-    data: () => ({
-      valid: true,
-      title: '',
-      titleRules: [
-        v => !!v || 'Title is required',
-      ],
-      year: '',
-      yearRules: [
-        v => !!v || 'Year is required',
-        v => /^[1-9]\d{3,}$/.test(v) || 'Year must be from 1000',
-      ],
-      desc: '',
-      descRules: [
-        v => !!v || 'Description is required',
-      ],
-      minplayers: '',
-      minRules: [
-        v => !!v || 'Min number is required',
-        v => /^[1-9]\d*$/.test(v) || 'Number of players must be valid and at least 1'
-      ],
-      maxplayers: '',
-      maxRules: [
-        v => !!v || 'Max number is required',
-        v => /^[1-9]\d*$/.test(v) || 'Number of players must be valid and at least 1',
-      ],
-    }),
+    data() {
+      return {
+        valid: true,
+        title: '',
+        titleRules: [
+          v => !!v || 'Title is required',
+        ],
+        year: null,
+        yearRules: [
+          v => !!v || 'Year is required',
+          v => v >= 1000 || 'Year must be from 1000',
+        ],
+        desc: '',
+        descRules: [
+          v => !!v || 'Description is required',
+        ],
+        minplayers: null,
+        minRules: [
+          v => !!v || 'Min number is required',
+          v => v >= 1 || 'Number of players must be valid and at least 1'
+        ],
+        maxplayers: null,
+        maxRules: [
+          v => !!v || 'Max number is required',
+          v => (v >= 1) || 'Number of players must be valid and at least 1',
+          v => (v >= this.minplayers) || 'Max must be at least the min'
+        ],
+      }
+    },
 
     computed: {
       range(start, end) {
@@ -127,7 +136,7 @@
           console.log(err)
         }
       },
-      submit () {
+      submit () { // should be async later
         const isValid = this.$refs.form.validate()
         // axios call if valid
         if (isValid) {
