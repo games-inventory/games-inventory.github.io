@@ -38,4 +38,7 @@ jobs:
           git config user.email "<>"
         
       - name: Push to gh-pages
-        run: git commit -am "Automated build" && npm run deploy
+        run: |
+          git commit -am "Automated build"
+          git subtree split --prefix dist -b gh-pages
+          git push -f origin gh-pages:gh-pages
