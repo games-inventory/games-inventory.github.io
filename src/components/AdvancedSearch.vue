@@ -42,7 +42,7 @@
 
         <v-row no-gutters>
           <v-col align="end">
-            <v-btn color="primary" v-on:click="populateField">Submit</v-btn>
+            <v-btn color="primary" v-on:click="submitData">Submit</v-btn>
           </v-col>
         </v-row>
       </v-expansion-panel-content>
@@ -54,15 +54,24 @@
 // import axios from 'axios';
 
 export default {
-  data: () => ({
-    title: '',
-    genre: null,
-    year: null, 
-    minnumber: null,
-    maxnumber: null,
-    dialog: false,
-    genres: [],
-    players: [1,2,3,4,5,6,7,8,9,10],
-    gamesdata: null,
-  })
+  data() {
+    return {
+      title: '',
+      genre: null,
+      year: null, 
+      minnumber: null,
+      maxnumber: null,
+      dialog: false,
+      genres: [],
+      players: [1,2,3,4,5,6,7,8,9,10],
+      gamesdata: null,
+    }
+  }, 
+
+  methods: {
+    submitData() {
+      // hookup to axios
+    }
+  }
 }
+</script>

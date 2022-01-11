@@ -7,7 +7,7 @@
             </v-card-title>
 
             <v-card-subtitle>
-                {{ minplayers }}-{{ maxplayers }} players
+                {{ minPlayers }}-{{ maxPlayers }} players
             </v-card-subtitle>
         </v-card>
     </v-container>
@@ -19,8 +19,8 @@
             id: { default: -1, type: Number },
             title: { default: "", type: String },
             year: { default: 0, type: Number },
-            minplayers: { default: 0, type: Number },
-            maxplayers: { default: 0, type: Number }
+            minPlayers: { default: 0, type: Number },
+            maxPlayers: { default: 0, type: Number }
         },
         methods: {
             onclick: function() { 
